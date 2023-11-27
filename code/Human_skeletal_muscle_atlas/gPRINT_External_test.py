@@ -30,7 +30,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 
-#### nohup python cnn_L2.py cnn_12vs17 wk12_14 wk17_18 &
+#### nohup python gPRINT_External_test.py cnn_12vs17 wk12_14 wk17_18 &
 
 ### 创建文件夹的方法
 
