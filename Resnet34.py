@@ -42,7 +42,7 @@ sys.setrecursionlimit(3000)
 ################        python          ##################
 
 
-###  nohup python resnet34.py input_path reference test out_path
+###  nohup python Resnet34.py input_path reference test out_path
 
 
 ###########################################################
