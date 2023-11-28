@@ -1,5 +1,6 @@
 # find markers for every cluster compared to all remaining cells, report only the positive
 # ones
+
 Idents(train)<-train$ordinal
 train.markers <- FindAllMarkers(train, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 1.5)
 
