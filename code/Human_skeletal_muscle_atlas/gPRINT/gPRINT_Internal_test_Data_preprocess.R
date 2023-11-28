@@ -23,7 +23,7 @@ delet_2<- function(df){
 }
 
 
-##整合
+##merge
 zhenghe<-function(df){
   df_delet<-delet_2(df)
   data_celltype<-data_celltype[colnames(df_delet),]
