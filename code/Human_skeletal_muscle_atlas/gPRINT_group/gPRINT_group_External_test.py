@@ -37,7 +37,7 @@ import sys
 
 ###########################################################
 
- ##路径
+## pathway
 path_d= sys.argv[1]  ##reference
 
 data= pd.read_csv(path_d,low_memory=False)##_new
@@ -90,7 +90,7 @@ Y_2_name = np.unique(Y_2)
 #from sklearn.utils import shuffle
 #X,Y = shuffle(X,Y, random_state=1337) 
 nclass2 = len(Y_2_name)
-# 细胞类型编码为数字
+#
 encoder = LabelEncoder()
 Y_2_encoded = encoder.fit_transform(Y_2)
 #Y_2_onehot = np_utils.to_categorical(Y_2_encoded)
@@ -121,26 +121,26 @@ path_out= sys.argv[3]
 path_name=path_out+'model_classifier_bp.png'
 plot_model(model, to_file=path_name, show_shapes=True)
 
-model.fit(x_train, y_train,batch_size = 32, #每一批batch的大小为32，
+model.fit(x_train, y_train,batch_size = 32, 
           epochs = 50)  # starts training
 
 
-############# 保存 ###########
-# 将其模型转换为json
+############# save  ###########
+# 
 #path_out= sys.argv[4]
 
 path_name=path_out+'model_bp.json'
 model_json = model.to_json()
 with open(path_name,'w')as json_file:
-  json_file.write(model_json)# 权重不在json中,只保存网络结构
+  json_file.write(model_json)
 
 
 path_name=path_out+'model_bp.h5'
 model.save_weights(path_name)
 
 
-########### 读取 #######
-# 加载模型用做预测
+########### load model #######
+
 path_name=path_out+'model_bp.json'
 json_file = open(path_name, "r")
 loaded_model_json = json_file.read()
@@ -156,7 +156,7 @@ predicted=loaded_model.predict(x_test)
 predicted_label=np.argmax(predicted,axis=1)
 
 
-truelabel = y_test.argmax(axis=-1) # 将one-hot转化为label
+truelabel = y_test.argmax(axis=-1) # 
 
 r1=Y_1_name[predicted_label]
 
