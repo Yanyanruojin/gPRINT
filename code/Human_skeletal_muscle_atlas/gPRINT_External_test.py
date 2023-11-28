@@ -32,23 +32,23 @@ import sys
 
 #### nohup python gPRINT_External_test.py cnn_12vs17 wk12_14 wk17_18 &
 
-### 创建文件夹的方法
+### create a folder
 
 def mkdir(path):
  
 	folder = os.path.exists(path)
  
-	if not folder:                   #判断是否存在文件夹如果不存在则创建为文件夹
-		os.makedirs(path)            #makedirs 创建文件时如果路径不存在会创建这个路径
+	if not folder:                   # Determine whether the folder exists
+		os.makedirs(path)            #makedirs :When creating a file, if the path does not exist, this path will be created.
 		print("---  new folder...  ---") 
-		print("---  OK  ---")
+		print("---  It is OK  ---")
  
 	else:
-		print("---  There is this folder!  ---") 
+		print("---  There exists this folder  ---") 
 
 
 
-path='/data/yrj/MTJ/人类骨骼肌图谱/'
+path='/data/Human_skeletal_muscle_atlas/'
 path_need=sys.argv[1]
 path_d= path+path_need+'/'+sys.argv[2]+'_all.csv'  ##reference
 
@@ -57,6 +57,7 @@ mkdir(out_way)
 
 path_out= out_way+'out_'
 
+##### train set
 #data= pd.read_csv("/data/yrj/download_sc/Pancreas/seurat/baron_all.csv",low_memory=False)##_new
 data= pd.read_csv(path_d,low_memory=False)##_new
 gene_name=data['Unnamed: 0' ]
@@ -83,7 +84,7 @@ X_train=X_1
 Y_train=Y_1_onehot
 
 
-#####测试集
+##### test set 
 
 path_d_2= path+path_need+'/'+sys.argv[3]+'_all.csv'  ##reference
 data_2= pd.read_csv(path_d_2,low_memory=False)
@@ -109,7 +110,7 @@ Y_2_name = np.unique(Y_2)
 #from sklearn.utils import shuffle
 #X,Y = shuffle(X,Y, random_state=1337) 
 nclass2 = len(Y_2_name)
-# 湿度分类编码为数字
+# cell types encoded as number
 encoder = LabelEncoder()
 Y_2_encoded = encoder.fit_transform(Y_2)
 Y_2_onehot = np_utils.to_categorical(Y_2_encoded)
@@ -118,11 +119,7 @@ X_test=X_2
 Y_test=Y_2_onehot
 
 
-
-
-
-
-## 两层CNN
+##### 2 layers CNN
 out_way=path+path_need+'/L2/'
 mkdir(out_way)
 path_out= out_way+'out_'
@@ -147,12 +144,12 @@ history=estimator.fit(X_train, Y_train)
 
 
 
-########### 保存 #######
+######### save  model #######
 
 path_name=path_out+'model.json'
 model_json = estimator.model.to_json()
 with open(path_name,'w')as json_file:
-    json_file.write(model_json)# 权重不在json中,只保存网络结构
+    json_file.write(model_json)# only the network structure is saved
 
 
 path_name=path_out+'model.h5'
@@ -160,8 +157,8 @@ estimator.model.save_weights(path_name)
 
 
 
-########### 读取 #######
-# 加载模型用做预测
+########### Load  model  #######
+# Load the model for prediction
 path_name=path_out+'model.json'
 json_file = open(path_name, "r")
 loaded_model_json = json_file.read()
@@ -172,11 +169,11 @@ loaded_model.load_weights(path_name)
 
 
 
-########predicted#######
+########  predict labels  #######
 predicted=estimator.model.predict(X_test)
 predicted_label=estimator.model.predict_classes(X_test)
 
-truelabel = Y_test.argmax(axis=-1) # 将one-hot转化为label
+truelabel = Y_test.argmax(axis=-1) # Convert one-hot to label
 
 p = precision_score(truelabel, predicted_label, average='weighted')
 r = recall_score(truelabel, predicted_label, average='weighted')
@@ -184,7 +181,7 @@ f1score = f1_score(truelabel, predicted_label, average='weighted')
 print('precision_score: {:.2%}'.format(p))
 print("recall_score: {:.2%}".format(r))
 print("f1_score: {:.2%}".format(f1score))
-###### ENCODE的顺序是按照np.unique 来的
+###### The order of ENCODE is according to np.unique
 train_correct_all =(Y_1_name[predicted_label]==Y_2_name[truelabel]).sum()
 train_acc_all=train_correct_all/Y_test.shape[0]
 
@@ -249,7 +246,7 @@ meta=np.vstack((r1,r2))
 meta=pd.DataFrame(meta)
 meta.columns=data_last_2.index
 meta.index=['predict','real']
-path_name=path_out+'metadata2.csv'
+path_name=path_out+'metadata.csv'
 meta.to_csv(path_name,sep=',',index=True,header=True)
 
 
