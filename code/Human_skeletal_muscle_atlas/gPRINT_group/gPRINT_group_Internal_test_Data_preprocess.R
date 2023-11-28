@@ -7,8 +7,8 @@ train.markers <- FindAllMarkers(train, only.pos = TRUE, min.pct = 0.25, logfc.th
 Idents(test)<-test$ordinal
 test.markers <- FindAllMarkers(test, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 1.5)
 
-write.csv(train.markers,'./Wk_12vs17/marker/train_marker.csv')
-write.csv(test.markers,'./Wk_12vs17/marker/test_marker.csv')
+write.csv(train.markers,'./Wk_12_14/marker/train_marker.csv')
+write.csv(test.markers,'./Wk_12_14/marker/test_marker.csv')
 
 train_marker_c<-trainMatrix[train.markers$gene,]
 train_marker_type<-trainMetaData[colnames(train_marker_c),]
@@ -50,9 +50,9 @@ print(dim(query_all))
 #query_data_mapped<-rbind(query_c,query_type)
 #rf_del_all<-rbind(rf_del,rf_type$cell_type1)
 #path_out_rf= paste0(args[9],args[7],'_all.csv')
-path_out_rf= paste0('/data/Human_skeletal_muscle_atlas/Wk_12vs17/marker/train_marker2_all.csv')
+path_out_rf= paste0('/data/Human_skeletal_muscle_atlas/Wk_12_14/marker/train_marker2_all.csv')
 
-path_out_query= paste0('/data/Human_skeletal_muscle_atlas/Wk_12vs17/marker/test_marker2_all.csv')
+path_out_query= paste0('/data/Human_skeletal_muscle_atlas/Wk_12_14/marker/test_marker2_all.csv')
 
 
 
