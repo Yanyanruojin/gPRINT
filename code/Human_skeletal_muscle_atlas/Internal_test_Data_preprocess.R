@@ -1,6 +1,6 @@
 args<-commandArgs(T)
 
-pathway<-c('/data/yrj/MTJ/人类骨骼肌图谱/')
+pathway<-c('/data/Human_skeletal_muscleatlas/')
 
 path1<-paste0(pathway,args[1],"/",args[1],"_count.csv")
 path2<-paste0(pathway,args[1],"/",args[1],"_type.csv")
@@ -14,7 +14,7 @@ ordergenes<-read.csv("/data/yrj/download_sc/order_end_gene.csv",header=T,row.nam
 data_order_gene<-ordergenes[ordergenes$gene_id%in%rownames(data),]
 data_order<-data[data_order_gene$gene_id,]
 
-#筛选
+#delet
 
 delet_2<- function(df){ 
   df_sum<-rowSums(df)
