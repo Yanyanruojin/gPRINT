@@ -31,7 +31,7 @@ import sys
 ##/data/yrj/download_sc/HCL/CNN/test_end_pos/cnn_self/
 ###########################################################
 
-path = sys.argv[1]   ##路径
+path = sys.argv[1]   ## pathway
 #path='/data/yrj/download_sc/tissue/Li/'
 #data_path=path + 'li_data.csv'
 data_path=path + sys.argv[2]+'_order_all.csv'
@@ -89,7 +89,7 @@ for i in range(1,nclass):
 
 
 
-# 分类编码为数字
+# Classification coded as numbers
 encoder = LabelEncoder()
 Y_encoded = encoder.fit_transform(Y_balanced)
 Y_onehot = np_utils.to_categorical(Y_encoded)
@@ -129,7 +129,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X_balanced, Y_onehot, test_s
 
 #####################
 
-# 定义神经网络
+#  CNN
 #nclass=14
 def baseline_model():
 	model = Sequential()
@@ -158,12 +158,12 @@ def baseline_model():
 estimator = KerasClassifier(build_fn=baseline_model, epochs=10, batch_size=32, verbose=1)
 history=estimator.fit(X_train, Y_train)
 
-# 分类准确率
+# accuracy
 print("The accuracy of the classification model:")
 scores = estimator.model.evaluate(X_test, Y_test, verbose=0)
 print('%s: %.2f%%' % (estimator.model.metrics_names[1], scores[1] * 100))
 
-##五折交叉验证
+## 5 fold
 #cnn_scores = cross_val_score(estimator, X_train, Y_train, cv=5)
 #print(cnn_scores)
 
@@ -171,22 +171,22 @@ print('%s: %.2f%%' % (estimator.model.metrics_names[1], scores[1] * 100))
 #cnn_scores2=pd.DataFrame(cnn_scores)
 #cnn_scores2.to_csv(path_name)
 
-############# 保存 ###########
-# 将其模型转换为json
+############# save model ###########
+# Convert model to json
 #path_out= sys.argv[4]
 
 path_name=path_out+sys.argv[2]+'_model.json'
 model_json = estimator.model.to_json()
 with open(path_name,'w')as json_file:
-    json_file.write(model_json)# 权重不在json中,只保存网络结构
+    json_file.write(model_json)# only the network structure is saved
 
 
 path_name=path_out+sys.argv[2]+'_model.h5'
 estimator.model.save_weights(path_name)
 
 
-########### 读取 #######
-# 加载模型用做预测
+########### load model #######
+# load model to predict the labels
 path_name=path_out+sys.argv[2]+'_model.json'
 json_file = open(path_name, "r")
 loaded_model_json = json_file.read()
@@ -200,7 +200,7 @@ loaded_model.load_weights(path_name)
 predicted=estimator.model.predict(X_test)
 predicted_label=estimator.model.predict_classes(X_test)
 
-truelabel = Y_test.argmax(axis=-1) # 将one-hot转化为label
+truelabel = Y_test.argmax(axis=-1) # Convert one-hot to label
 
 p = precision_score(truelabel, predicted_label, average='weighted')
 r = recall_score(truelabel, predicted_label, average='weighted')
@@ -210,7 +210,8 @@ print('precision_score: {:.2%}'.format(p))
 print("recall_score: {:.2%}".format(r))
 print("f1_score: {:.2%}".format(f1score))
 
-###### ENCODE的顺序是按照np.unique 来的
+###### The order of ENCODE is according to np.unique
+
 train_correct_all =(Y_name[predicted_label]==Y_name[truelabel]).sum()
 train_acc_all=train_correct_all/Y_test.shape[0]
 
@@ -223,7 +224,7 @@ result_scores.to_csv(path_name)
 
 #cnn_scores2.to_csv(path_name)
 
-####想要 每个细胞类别对应的正确率（Y_2 的type A [可能对应的是1]，对应到Y_1的type A[可能对应的是2]）
+####
 #for i in range(nclass2):
 	#train_correct[i] =(Y_1_name[i]==Y_2_name[i]).sum()/Y_test.shape[0]
 
@@ -279,11 +280,11 @@ result.to_csv(path_name)
 
 
 
-# 卷积网络可视化
+# cnn visual
 def visual(model, data, num_layer=1):
-	# data:图像array数据
-	# layer:第n层的输出
-	data = np.expand_dims(data, axis=0)     # 开头加一维
+	# data:image array data
+	# layer
+	data = np.expand_dims(data, axis=0)     # Add one dimension at the beginning
 	layer = keras.backend.function([model.layers[0].input], [model.layers[num_layer].output])
 	f1 = layer([data])[0]
 	num = f1.shape[-1]
@@ -298,15 +299,15 @@ def visual(model, data, num_layer=1):
 	plt.show()
 
 
-#visual(loaded_model, data2, 1)	# 卷积层
+#visual(loaded_model, data2, 1)	# cnn
 
 
-# 混淆矩阵定义
+# Confusion matrix definition
 def plot_confusion_matrix(cm, classes,title='Adipose_Confusion matrix',cmap=plt.cm.jet):
 	cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 	plt.imshow(cm, interpolation='nearest', cmap=cmap)
-	plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-	plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号	
+	plt.rcParams['font.sans-serif'] = ['SimHei']  # Used to display Chinese labels normally
+	plt.rcParams['axes.unicode_minus'] = False  # Used to display negative signs normally
 	plt.colorbar()
 	tick_marks = np.arange(len(classes))
 	plt.xticks(tick_marks,np.unique(Y))
@@ -321,7 +322,7 @@ def plot_confusion_matrix(cm, classes,title='Adipose_Confusion matrix',cmap=plt.
 	plt.savefig(path_name, dpi=200, bbox_inches='tight', transparent=False)
 
 
-# 显示混淆矩阵
+# show confusion matrix
 def plot_confuse(model, x_val, y_val):
 	predictions = model.predict_classes(x_val)
 	truelabel = y_val.argmax(axis=-1)   # 将one-hot转化为label
@@ -330,15 +331,15 @@ def plot_confuse(model, x_val, y_val):
 	plot_confusion_matrix(conf_mat, range(np.max(truelabel)+1))
 
 
-#显示混淆矩阵
+#show confusion matrix
 plot_confuse(estimator.model, X_test, Y_test)
 
 Y_score=estimator.model.predict(X_test)
 
 
-###AUC,ROC的绘制
+### show AUC,ROC 
 
-# 计算每一类的ROC
+# Calculate ROC for each category
 fpr = dict()
 tpr = dict()
 roc_auc = dict()
@@ -348,11 +349,11 @@ for i in range(nclass):
     roc_auc[i] = auc(fpr[i], tpr[i])
 
 
-# Compute micro-average ROC curve and ROC area（方法二）
+# Compute micro-average ROC curve and ROC area（method 1）
 fpr["micro"], tpr["micro"], _ = roc_curve(Y_test.ravel(), Y_score.ravel())
 roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
-# Compute macro-average ROC curve and ROC area（方法一）
+# Compute macro-average ROC curve and ROC area（method 2）
 # First aggregate all false positive rates
 all_fpr = np.unique(np.concatenate([fpr[i] for i in range(nclass)]))
 # Then interpolate all ROC curves at this points
