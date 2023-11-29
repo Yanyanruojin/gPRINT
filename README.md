@@ -38,12 +38,17 @@ When machine learning is applied to classification tasks, metrics such as precis
 **#Demonstration**
 
 gPRINT:
+
   Internal_test:
+  
     nohup Rscript gPRINT_Internal_test_Data_preprocess.R Wk12_14 &
+    
     nohup python gPRINT_Internal_test.py /data/Human_skeletal_muscle_atlas/Wk12_14/cnn_self/ Wk12_14 /data/Human_skeletal_muscle_atlas/Wk12_14/cnn_self/result/
   
   External_test:
+  
     nohup Rscript gPRINT_External_test_Data_preprocess.R Wk12_14 Wk17_18 &
+    
     nohup python gPRINT_External_test.py Wk_12vs17 Wk12_14 Wk17_18 &
 
 
