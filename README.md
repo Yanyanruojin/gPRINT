@@ -24,13 +24,16 @@ Based on the "gene prints," we employ a one-dimensional convolutional neural net
 
 Based on the "feature prints," we utilize backpropagation (BP) neural network. The BP neural network is a multi-layer feedforward neural network, and its training process mainly involves two stages: the forward propagation of signals and the backward propagation of errors. It uses the steepest descent method as the learning rule, continually adjusting the network's weights and thresholds through backpropagation to minimize the sum of squared errors.
 
+
 **#Detailed in**
 
 /data/code/gPRINT/External_test.py or /data/code/gPRINT_group/External_test_group.py
 
+
 **#Accuracy and F1 Score Evaluation**
 
 When machine learning is applied to classification tasks, metrics such as precision, recall, accuracy, F1-score, and receiver operating characteristic (ROC) curve are commonly used for model evaluation.
+
 
 **#Demonstration**
 
