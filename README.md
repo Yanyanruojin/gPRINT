@@ -1,6 +1,6 @@
 # gPRINT
 
-Python 3.6.15; R 4.2.2 
+Python 3.6.15; R 3.6.1 
 
 Tools for gene-printing-based single-cell identification of human disease-specific cell subtypes across heterogeneous datasets
 
