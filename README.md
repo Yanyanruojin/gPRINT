@@ -1,10 +1,12 @@
 # gPRINT
+
 Python 3.6.15; R 4.2.2 
 
 Tools for gene-printing-based single-cell identification of human disease-specific cell subtypes across heterogeneous datasets
 
 
 **#Install**
+
 numpy 1.19.5;pandas 1.1.5; Keras 2.2.4 ; matplotlib 3.3.1; sklearn 0.0.post5; 
 
 **#Data Preprocessing**
