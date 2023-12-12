@@ -10,7 +10,7 @@ print(paste(path1,path2,path3,seq=" "))
 data<-read.csv(path1,header=T,row.names=1)
 data_celltype<-read.csv(path2,header=T,row.names=1)
 ordergenes<-read.csv("/data/yrj/download_sc/order_end_gene.csv",header=T,row.names=1)
-
+ordergenes<-ordergenes[!duplicated(ordergenes$gene_id),]
 data_order_gene<-ordergenes[ordergenes$gene_id%in%rownames(data),]
 data_order<-data[data_order_gene$gene_id,]
 
