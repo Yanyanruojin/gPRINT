@@ -1,2 +1,4 @@
 # gPRINT
-Cell annotation algorithms available at the cell type and cell subtype level.
+Tools for gene-printing-based single-cell identification of human disease-specific cell subtypes across heterogeneous datasets.
+
+
