@@ -42,6 +42,8 @@ When machine learning is applied to classification tasks, metrics such as precis
 **#Demonstration**
 
 If you want to select a model with an established database for cell type annotation, 
+
+
 you can run the cell to cell level model: **gPRINT_reference.sh**
 
 
@@ -50,14 +52,24 @@ For example: bash gPRINT_reference.sh human_Pancreas349 Pancreas
 
 Or run the group to group level model: **gPRINT_group_reference.sh**
 
+
+
 For example: bash gPRINT_group_reference.sh human_Pancreas349 Pancreas
 
+
+
 If you want to select a cell type annotation mapping for a reference dataset you provide yourself, 
+
+
 you can run the cell to cell level model: **gPRINT.sh**
 
 
 For example: bash gPRINT.sh Wk12_14 Wk17_18
+
+
 Or run the group to group level model: **gPRINT_group.sh**
+
+
 For example: bash gPRINT_group.sh Wk12_14 Wk17_18
 
 
