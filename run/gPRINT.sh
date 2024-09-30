@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "Query_data is : $1"
-echo "Reference_data is : $2"
+echo "Reference_data is : $1"
+echo "Query_data is : $2"
 cd .. 
 cd code/
 
